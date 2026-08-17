@@ -4,6 +4,8 @@ import { useState, type FormEvent } from "react";
 import { COMPANY_SIZES, NEED_OPTIONS } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
+const FORM_ENDPOINT = "https://formspree.io/f/xwlerjow";
+
 const inputClasses =
   "w-full rounded-lg border border-border bg-background px-3.5 py-3 text-[15px] text-foreground placeholder:text-muted-2 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25";
 
@@ -11,12 +13,31 @@ const selectClasses = `${inputClasses} select-arrow appearance-none pr-10`;
 
 const labelClasses = "mb-1.5 block text-sm font-medium text-foreground/85";
 
-export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+type Status = "idle" | "submitting" | "submitted" | "error";
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+export function ContactForm() {
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
+    const form = e.currentTarget;
+    setStatus("submitting");
+
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        setStatus("submitted");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -34,7 +55,7 @@ export function ContactForm() {
         </Reveal>
 
         <Reveal delay={120} className="mt-8 rounded-2xl border border-border bg-background-raised p-6 sm:p-7">
-          {submitted ? (
+          {status === "submitted" ? (
             <div
               className="animate-fade-in flex flex-col items-center py-10 text-center"
               role="status"
@@ -156,13 +177,21 @@ export function ContactForm() {
               <div className="sm:col-span-2">
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_10px_24px_-8px_rgba(47,79,219,0.4)] transition-transform hover:translate-y-[-1px] hover:brightness-110 active:translate-y-0 sm:w-auto"
+                  disabled={status === "submitting"}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-[0_10px_24px_-8px_rgba(47,79,219,0.4)] transition-transform hover:translate-y-[-1px] hover:brightness-110 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 sm:w-auto"
                 >
-                  Submit Request
+                  {status === "submitting" ? "Sending…" : "Submit Request"}
                 </button>
-                <p className="mt-3 text-xs text-muted-2">
-                  We&apos;ll only use these details to follow up about your QA assessment.
-                </p>
+                {status === "error" ? (
+                  <p className="mt-3 text-xs text-danger" role="alert">
+                    Something went wrong sending your request. Please try again, or email us
+                    directly if it keeps happening.
+                  </p>
+                ) : (
+                  <p className="mt-3 text-xs text-muted-2">
+                    We&apos;ll only use these details to follow up about your QA assessment.
+                  </p>
+                )}
               </div>
             </form>
           )}
