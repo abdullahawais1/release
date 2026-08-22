@@ -45,18 +45,27 @@ function StatusIcon({ status }: { status: Status }) {
 }
 
 export function TestRunPanel() {
-  const [runningIndex, setRunningIndex] = useState(0);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    if (prefersReduced) {
+      const id = window.setTimeout(() => setStep(TEST_LINES.length), 0);
+      return () => window.clearTimeout(id);
+    }
     const id = window.setInterval(() => {
-      setRunningIndex((i) => (i + 1 < TEST_LINES.length ? i + 1 : i));
+      setStep((s) => {
+        if (s >= TEST_LINES.length) {
+          window.clearInterval(id);
+          return s;
+        }
+        return s + 1;
+      });
     }, 1400);
     return () => window.clearInterval(id);
   }, []);
 
-  const passedCount = runningIndex;
+  const passedCount = step;
 
   return (
     <div
@@ -75,7 +84,7 @@ export function TestRunPanel() {
 
       <div className="space-y-2.5 px-4 py-5 font-mono text-[12.5px] leading-relaxed">
         {TEST_LINES.map((line, i) => {
-          const status: Status = i < runningIndex ? "pass" : i === runningIndex ? "running" : "queued";
+          const status: Status = i < step ? "pass" : i === step ? "running" : "queued";
           return (
             <div
               key={line.file}
@@ -92,11 +101,15 @@ export function TestRunPanel() {
       </div>
 
       <div className="flex items-center justify-between border-t border-(--panel-border) px-4 py-3 font-mono text-[11px] text-(--panel-muted-2)">
-        <span>
-          {passedCount}/{TEST_LINES.length} passed
+        <span className={passedCount === TEST_LINES.length ? "text-success" : undefined}>
+          {passedCount}/{TEST_LINES.length} tests passed
         </span>
         <span className="inline-flex items-center gap-1.5 text-(--panel-muted)">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${
+              passedCount === TEST_LINES.length ? "bg-success" : "bg-accent"
+            }`}
+          />
           CI/CD pipeline
         </span>
       </div>

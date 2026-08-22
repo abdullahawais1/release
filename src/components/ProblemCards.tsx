@@ -18,8 +18,9 @@ const PROBLEMS: ProblemCard[] = [
     span: "lg:col-span-5",
   },
   {
-    problem: "Your team needs QA automation expertise.",
-    solution: "Get specialized QA engineering support without hiring a full-time automation team.",
+    problem: "No one owns QA automation.",
+    solution:
+      "Growing teams often lack a dedicated automation owner — coverage stalls and quality gets inconsistent.",
     span: "lg:col-span-4",
   },
   {

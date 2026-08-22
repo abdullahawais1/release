@@ -25,7 +25,7 @@ const REASONS = [
 
 export function WhyTestForge() {
   return (
-    <section className="border-t border-border bg-background-raised/40 py-14 sm:py-20">
+    <section id="why" className="border-t border-border bg-background-raised/40 py-14 sm:py-20">
       <div className="mx-auto max-w-(--container-content) px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="section-eyebrow text-xs font-medium uppercase text-accent">
@@ -34,6 +34,12 @@ export function WhyTestForge() {
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
             A QA partner built for growing teams.
           </h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted">
+            Not a generalist agency spread across every kind of project, not a freelancer
+            marketplace, and not a large consultancy built around long, rigid engagements —
+            just focused QA and quality engineering, delivered through a repeatable process
+            that scales with your team.
+          </p>
         </Reveal>
 
         <div className="mt-10 divide-y divide-border border-t border-border">

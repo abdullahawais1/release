@@ -40,10 +40,10 @@ export function CTA() {
             </svg>
           </a>
           <a
-            href="#contact"
+            href="#approach"
             className="inline-flex w-full items-center justify-center rounded-full border border-white/35 px-7 py-3.5 text-sm font-medium text-white transition-colors hover:border-white/60 hover:bg-white/10 sm:w-auto"
           >
-            Book a Consultation
+            See How We Work
           </a>
         </div>
       </Reveal>

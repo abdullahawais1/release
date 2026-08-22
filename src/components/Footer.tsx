@@ -75,7 +75,7 @@ export function Footer() {
             {SOCIALS.map((social) => (
               <a
                 key={social.label}
-                href="#0"
+                href={social.label === "Email" ? "mailto:abdullahawais492@gmail.com" : "#0"}
                 aria-label={social.label}
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-(--panel-border) text-(--panel-muted) transition-colors hover:border-(--panel-border-strong) hover:text-(--panel-fg)"
               >

@@ -4,8 +4,8 @@ import { TechnologyStrip } from "@/components/TechnologyStrip";
 import { ProblemCards } from "@/components/ProblemCards";
 import { Services } from "@/components/Services";
 import { WhyTestForge } from "@/components/WhyTestForge";
-import { Solutions } from "@/components/Solutions";
 import { SampleProjects } from "@/components/SampleProjects";
+import { AutomationLab } from "@/components/AutomationLab";
 import { Process } from "@/components/Process";
 import { About } from "@/components/About";
 import { CTA } from "@/components/CTA";
@@ -28,8 +28,8 @@ export default function Home() {
         <ProblemCards />
         <Services />
         <WhyTestForge />
-        <Solutions />
         <SampleProjects />
+        <AutomationLab />
         <Process />
         <About />
         <CTA />

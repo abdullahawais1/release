@@ -79,7 +79,8 @@ export function Services() {
                 <h3 className="mt-4 text-2xl font-semibold tracking-tight">QA Automation</h3>
                 <p className="mt-2.5 max-w-md text-[15px] leading-relaxed text-muted">
                   Build reliable automated coverage for critical workflows and regression
-                  scenarios.
+                  scenarios — whether you&apos;re starting from zero or auditing and improving
+                  an existing suite.
                 </p>
 
                 <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2.5">
